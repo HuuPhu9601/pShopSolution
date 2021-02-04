@@ -14,5 +14,7 @@ namespace pShopSolution.Data.Entities
         public Order Order { get; set; }
 
         public product Product { get; set; }
+
+        
     }
 }

@@ -16,5 +16,9 @@ namespace pShopSolution.Data.Entities
         public int? ParentId { get; set; }
 
         public status Status { get; set; }
+
+        public List<ProductInCategory> ProductInCategories { get; set; }
+
+        public List<categoryTranslation> CategoryTranslations { get; set; }
     }
 }
