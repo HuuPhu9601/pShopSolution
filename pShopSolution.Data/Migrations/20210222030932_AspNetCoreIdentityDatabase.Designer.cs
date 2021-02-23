@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pShopSolution.Data.EF;
 
 namespace pShopSolution.Data.Migrations
 {
     [DbContext(typeof(pShopDBContext))]
-    partial class pShopDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210222030932_AspNetCoreIdentityDatabase")]
+    partial class AspNetCoreIdentityDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,7 +265,7 @@ namespace pShopSolution.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 2, 23, 8, 6, 12, 549, DateTimeKind.Local).AddTicks(6743));
+                        .HasDefaultValue(new DateTime(2021, 2, 22, 10, 9, 31, 559, DateTimeKind.Local).AddTicks(8658));
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()

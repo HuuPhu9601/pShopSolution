@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShopSolution.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,5 +17,7 @@ namespace pShopSolution.Data.Entities
         public product Product { get; set; }
 
         public DateTime DateCreated { get; set; }
+
+        public AppUser AppUser { get; set; }
     }
 }
