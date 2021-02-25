@@ -4,11 +4,12 @@ using pShopSolution.Application.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace pShopSolution.Application.Catalog.Products
 {
     public interface IPublicProductService
     {
-        PageResult<ProductViewModel> GetAllByCategoryId(GetProductPagingRequest);
+        Task<PageResult<ProductViewModel>> GetAllByCategoryId(GetProductPagingRequest request);
     }
 }

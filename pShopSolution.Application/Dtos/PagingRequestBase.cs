@@ -9,7 +9,6 @@ namespace pShopSolution.Application.Dtos
         public int PageIndex { get; set; }
 
         public int PageSize { get; set; }
-
-        public int MyProperty { get; set; }
+        
     }
 }

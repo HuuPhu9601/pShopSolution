@@ -63,13 +63,6 @@ namespace pShopSolution.Application.Catalog.Products
             return await _context.SaveChangesAsync();
         }
 
-        public Task<List<ProductViewModel>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        
-
         public async Task<PageResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request)
         {
             //1. Select join
@@ -117,25 +110,36 @@ namespace pShopSolution.Application.Catalog.Products
             return pagedResult;
         }
 
-        public Task<bool> UpdatePrice(int productId, decimal newPrice)
+        public async Task<bool> UpdatePrice(int productId, decimal newPrice)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null) throw new pShopException($"Cam not find a product with id : {productId}");
+            product.price = newPrice;
+            return await _context.SaveChangesAsync()>0;
         }
+
 
         public async Task<int> UpdateProduct(ProductUpdateRequest request)
         {
-            var product = _context.Products.Find(request.Id);
-            if(request == null) throw new pShopException($"Cam not find a product : {productId}");
+            var product =await _context.Products.FindAsync(request.Id);
+            var productTranstation =await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == request.Id && x.LanguageId == request.LanguageId);
+            if(product == null || productTranstation == null ) throw new pShopException($"Cam not find a product with id : {request.Id}");
+
+            productTranstation.Name = request.Name;
+            productTranstation.SeoAlias = request.SeoAlias;
+            productTranstation.SeoDescription = request.SeoDescription;
+            productTranstation.SeoTitle = request.SeoTitle;
+            productTranstation.Description = request.Description;
+            productTranstation.Details = request.Details;
+            return  await _context.SaveChangesAsync();
         }
 
-        public Task<bool> UpdateStock(int productId, int addedQuantity)
+        public async Task<bool> UpdateStock(int productId, int addedQuantity)
         {
-            throw new NotImplementedException();
-        }
-
-        Task<List<ProductViewModel>> IManageProductService.GetAll()
-        {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null) throw new pShopException($"Cam not find a product with id : {productId}");
+            product.Stock += addedQuantity;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         Task<PageResult<ProductViewModel>> IManageProductService.GetAllPaging(GetProductPagingRequest request)
