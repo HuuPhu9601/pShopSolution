@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\pShopSolution.Data\pShopSolution.Data.csproj" />
+    <ProjectReference Include="..\pShopSolution.Utitlties\pShopSolution.Utitlties.csproj" />
   </ItemGroup>
 
 </Project>
