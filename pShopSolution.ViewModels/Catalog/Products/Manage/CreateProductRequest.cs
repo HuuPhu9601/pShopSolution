@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace pShopSolution.Application.Catalog.Products.Dtos.Manage
+namespace pShopSolution.ViewModels.Catalog.Products.Manage
 {
-    public class ProductUpdateRequest
+    public class CreateProductRequest
     {
-        public int Id { set; get; }
+
+        public decimal price { get; set; }
+
+        public decimal OriginalPrice { get; set; }
+
+        public int Stock { get; set; }
 
         public string Name { set; get; }
 
@@ -22,5 +28,6 @@ namespace pShopSolution.Application.Catalog.Products.Dtos.Manage
 
         public string LanguageId { set; get; }
 
+        public IFormFile ThumbnailImage { get; set; }
     }
 }

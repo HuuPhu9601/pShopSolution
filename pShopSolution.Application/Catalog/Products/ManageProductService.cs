@@ -1,12 +1,12 @@
-﻿using pShopSolution.Application.Dtos;
+﻿using pShopSolution.Application.Catalog.Products.Dtos;
+using pShopSolution.ViewModels.Catalog.Products.Manage;
+using pShopSolution.ViewModels.Common;
 using pShopSolution.Data.EF;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using pShopSolution.Data.Entities;
-using pShopSolution.Application.Catalog.Products.Dtos.Manage;
-using pShopSolution.Application.Catalog.Products.Dtos;
 using pShopSolution.Utitlties.Exceptions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
 ﻿using pShopSolution.Application.Catalog.Products.Dtos;
-using pShopSolution.Application.Catalog.Products.Dtos.Public;
-using pShopSolution.Application.Dtos;
+using pShopSolution.ViewModels.Catalog.Products.Manage;
+using pShopSolution.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;

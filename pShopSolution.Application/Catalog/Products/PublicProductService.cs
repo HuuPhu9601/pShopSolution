@@ -1,6 +1,4 @@
 ﻿using pShopSolution.Application.Catalog.Products.Dtos;
-using pShopSolution.Application.Catalog.Products.Dtos.Public;
-using pShopSolution.Application.Dtos;
 using pShopSolution.Data.EF;
 using System;
 using System.Collections.Generic;
@@ -8,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using pShopSolution.ViewModels.Common;
+using pShopSolution.ViewModels.Catalog.Products.Public;
 
 namespace pShopSolution.Application.Catalog.Products
 {
@@ -59,6 +59,11 @@ namespace pShopSolution.Application.Catalog.Products
                 Items = await data
             };
             return pagedResult;
+        }
+
+        public Task<PageResult<ProductViewModel>> GetAllByCategoryId(ViewModels.Catalog.Products.Manage.GetProductPagingRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }
