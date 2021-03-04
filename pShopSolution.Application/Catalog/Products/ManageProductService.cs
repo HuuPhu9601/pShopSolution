@@ -152,14 +152,25 @@ namespace pShopSolution.Application.Catalog.Products
             throw new NotImplementedException();
         }
 
-        public Task<int> RemoveImages(int imgeId)
+        public async Task<int> RemoveImages(int imageId)
         {
-            throw new NotImplementedException();
+            var RemoveImage = _context.ProductImages.Where(z => z.Id == imageId);
+            if (RemoveImage != null)
+            {
+                _context.ProductImages.Remove((ProductImage)RemoveImage);
+            }
+            return await _context.SaveChangesAsync();
         }
 
-        public Task<int> UpadateImages(int imageId, string caption, bool isDefault)
+        public async Task<int> UpadateImages(int imageId, string caption, bool isDefault)
         {
-            throw new NotImplementedException();
+            var updateImage = await _context.ProductImages.FindAsync(imageId);
+            if (updateImage != null)
+            {
+                updateImage.Caption = caption;
+                updateImage.IsDefault = isDefault;
+            }
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<bool> UpdatePrice(int productId, decimal newPrice)
