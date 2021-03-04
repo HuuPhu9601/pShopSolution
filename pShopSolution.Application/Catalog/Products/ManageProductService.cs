@@ -10,15 +10,27 @@ using pShopSolution.Data.Entities;
 using pShopSolution.Utitlties.Exceptions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.IO;
+using pShopSolution.Application.Comon;
 
 namespace pShopSolution.Application.Catalog.Products
 {
     public class ManageProductService : IManageProductService
     {
         private readonly pShopDBContext _context;
-        public ManageProductService(pShopDBContext context)
+        private readonly IStorageService _storageService;
+
+        public ManageProductService(pShopDBContext context, IStorageService storageService)
         {
             _context = context;
+            _storageService = storageService;
+        }
+
+        public Task<int> AddImages(int product, List<IFormFile> files)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task AddViewCount(int productId)
@@ -50,7 +62,23 @@ namespace pShopSolution.Application.Catalog.Products
                         LanguageId = request.LanguageId,
                     }
                 }
-            };  
+            };
+            //save image
+            if (request.ThumbnailImage !=null)
+            {
+                product.ProductImages = new List<ProductImage>()
+                {
+                    new ProductImage()
+                    {
+                        Caption = request.Name,
+                        DateCreated = DateTime.Now,
+                        FileSize = request.ThumbnailImage.Length,
+                        ImagePath = await this.SaveFile(request.ThumbnailImage),
+                        SortOrder = 1,
+                    }
+                };
+            }
+
             _context.Products.Add(product);
             return await _context.SaveChangesAsync();
         }
@@ -59,6 +87,15 @@ namespace pShopSolution.Application.Catalog.Products
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null) throw new pShopException($"Cam not find a product : {productId}");
+
+            //xoa file anh vat ly trc khi xoa san pham
+            var images =  _context.ProductImages.Where(z => z.ProductId == productId);
+
+            foreach (var item in images)
+            {
+               await _storageService.DeleteFileAsync(item.ImagePath);
+            }
+
             _context.Products.Remove(product);
             return await _context.SaveChangesAsync();
         }
@@ -110,6 +147,21 @@ namespace pShopSolution.Application.Catalog.Products
             return pagedResult;
         }
 
+        public Task<List<ProductImageViewModel>> GetListImages(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> RemoveImages(int imgeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> UpadateImages(int imageId, string caption, bool isDefault)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> UpdatePrice(int productId, decimal newPrice)
         {
             var product = await _context.Products.FindAsync(productId);
@@ -131,6 +183,21 @@ namespace pShopSolution.Application.Catalog.Products
             productTranstation.SeoTitle = request.SeoTitle;
             productTranstation.Description = request.Description;
             productTranstation.Details = request.Details;
+
+            //save image
+            if (request.ThumbnailImage != null)
+            {
+                var thumbnailImage =await  _context.ProductImages.FirstOrDefaultAsync(z => z.IsDefault == true && z.ProductId == request.Id);
+                if (thumbnailImage != null)
+                {
+
+                    thumbnailImage.FileSize = request.ThumbnailImage.Length;
+                    thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
+                    _context.ProductImages.Update(thumbnailImage);
+                }
+               
+            }
+
             return  await _context.SaveChangesAsync();
         }
 
@@ -145,6 +212,14 @@ namespace pShopSolution.Application.Catalog.Products
         Task<PageResult<ProductViewModel>> IManageProductService.GetAllPaging(GetProductPagingRequest request)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return fileName;
         }
     }
 }

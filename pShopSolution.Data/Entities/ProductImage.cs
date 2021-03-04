@@ -19,7 +19,8 @@ namespace pShopSolution.Data.Entities
         public DateTime DateCreated { get; set; }
 
         public int SortOrder { get; set; }
-        public int FileSize { get; set; }
+
+        public long FileSize { get; set; }
 
         public product Product { get; set; }
     }

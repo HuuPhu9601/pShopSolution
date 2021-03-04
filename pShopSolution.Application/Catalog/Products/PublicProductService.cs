@@ -61,9 +61,5 @@ namespace pShopSolution.Application.Catalog.Products
             return pagedResult;
         }
 
-        public Task<PageResult<ProductViewModel>> GetAllByCategoryId(ViewModels.Catalog.Products.Manage.GetProductPagingRequest request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
