@@ -1,5 +1,4 @@
-﻿using pShopSolution.Application.Catalog.Products.Dtos;
-using pShopSolution.ViewModels.Catalog.Products.Manage;
+﻿using pShopSolution.ViewModels.Catalog.Products;
 using pShopSolution.ViewModels.Common;
 using pShopSolution.Data.EF;
 using System;
@@ -100,7 +99,7 @@ namespace pShopSolution.Application.Catalog.Products
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<PageResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request)
+        public async Task<PageResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request)
         {
             //1. Select join
             var query = from p in _context.Products
@@ -218,11 +217,6 @@ namespace pShopSolution.Application.Catalog.Products
             if (product == null) throw new pShopException($"Cam not find a product with id : {productId}");
             product.Stock += addedQuantity;
             return await _context.SaveChangesAsync() > 0;
-        }
-
-        Task<PageResult<ProductViewModel>> IManageProductService.GetAllPaging(GetProductPagingRequest request)
-        {
-            throw new NotImplementedException();
         }
 
         private async Task<string> SaveFile(IFormFile file)

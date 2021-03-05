@@ -1,5 +1,4 @@
-﻿using pShopSolution.Application.Catalog.Products.Dtos;
-using pShopSolution.ViewModels.Catalog.Products.Public;
+﻿using pShopSolution.ViewModels.Catalog.Products;
 using pShopSolution.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,8 @@ namespace pShopSolution.Application.Catalog.Products
 {
     public interface IPublicProductService
     {
-        Task<PageResult<ProductViewModel>> GetAllByCategoryId(GetProductPagingRequest request);
+        Task<PageResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request);
+
+        Task<List<ProductViewModel>> GetAll();
     }
 }
