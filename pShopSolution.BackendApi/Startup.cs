@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using pShopSolution.Application.Catalog.Products;
 using pShopSolution.Data.EF;
 
@@ -33,6 +34,14 @@ namespace pShopSolution.BackendApi
             services.AddTransient<IPublicProductService, PublicProductService>();
 
             services.AddControllersWithViews();
+
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "",
+                    Version = "v1"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +63,14 @@ namespace pShopSolution.BackendApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(z =>
+            {
+                z.SwaggerEndpoint("/swagger/1/swagger.json", "Swagger pShopSolution V1");
+            });
+
 
             app.UseEndpoints(endpoints =>
             {
