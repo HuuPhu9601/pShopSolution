@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols;
 using pShopSolution.Data.Configurations;
 using pShopSolution.Data.Entities;
+using pShopSolution.Data.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -22,6 +23,7 @@ namespace pShopSolution.Data.EF
        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //configure using fluent API
             modelBuilder.ApplyConfiguration(new CartConfiguration());
 
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
