@@ -10,8 +10,8 @@ using pShopSolution.Data.EF;
 namespace pShopSolution.Data.Migrations
 {
     [DbContext(typeof(pShopDBContext))]
-    [Migration("20210304014816_changeFilelenghtType")]
-    partial class changeFilelenghtType
+    [Migration("20210306022959_Seeddata")]
+    partial class Seeddata
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
