@@ -67,7 +67,7 @@ namespace pShopSolution.Data.EF
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x=>x.UserId);
 
 
-
+            modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
         }
 

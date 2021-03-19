@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using pShopSolution.Application.Catalog.Products;
+using pShopSolution.Application.Comon;
 using pShopSolution.Data.EF;
 
 namespace pShopSolution.BackendApi
@@ -31,16 +32,16 @@ namespace pShopSolution.BackendApi
                 options.UseSqlServer(Configuration.GetConnectionString("pShopSolutionDatabase")));
 
             //Derclace DI
+            services.AddTransient<IStorageService, FileStorageService>();
+
             services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddTransient<IManageProductService, ManageProductService>();
 
             services.AddControllersWithViews();
 
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "",
-                    Version = "v1"
-                });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger pShop Solution", Version = "v1" });
             });
         }
 
@@ -66,9 +67,9 @@ namespace pShopSolution.BackendApi
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(z =>
+            app.UseSwaggerUI(c =>
             {
-                z.SwaggerEndpoint("/swagger/1/swagger.json", "Swagger pShopSolution V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger pShopSolution V1");
             });
 
 
