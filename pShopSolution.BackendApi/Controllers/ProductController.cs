@@ -22,24 +22,24 @@ namespace pShopSolution.BackendApi.Controllers
             _publicProductService = publicProductService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("{languageId}")]
+        public async Task<IActionResult> Get(string languageId)
         {
-            var products = await _publicProductService.GetAll();
+            var products = await _publicProductService.GetAll(languageId);
             return Ok(products);
         }
 
-        [HttpGet("public-paging")]
+        [HttpGet("public-paging/{languageId}")]
         public async Task<IActionResult> Get([FromQuery] GetPublicProductPagingRequest request)
         {
             var products = await _publicProductService.GetAllByCategoryId(request);
             return Ok(products);
         }
 
-        [HttpGet("{productId}")]
-        public async Task<IActionResult> GetById(int productId)
+        [HttpGet("{productId}/{languageId}")]
+        public async Task<IActionResult> GetById(int productId, string languageId)
         {
-            var product = await _manageProductService.GetById(productId);
+            var product = await _manageProductService.GetById(productId,languageId);
             if (product == null)
                 return BadRequest("Cannot find product");
             return Ok(product);
@@ -54,13 +54,13 @@ namespace pShopSolution.BackendApi.Controllers
                 return BadRequest();
             }
 
-            var products = await _manageProductService.GetById(productId);
+            var products = await _manageProductService.GetById(productId,create.LanguageId);
 
             return CreatedAtAction(nameof(GetById), new { id = productId }, products);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] ProductUpdateRequest update)
+        public async Task<IActionResult> Update([FromForm] ProductUpdateRequest update)
         {
             var affectedResult = await _manageProductService.UpdateProduct(update);
             if (affectedResult == 0)
@@ -82,7 +82,7 @@ namespace pShopSolution.BackendApi.Controllers
         }
 
         [HttpPut("price/{id}/{newprice}")]
-        public async Task<IActionResult> UpdatePrice([FromQuery] int id, decimal newprice)
+        public async Task<IActionResult> UpdatePrice(int id, decimal newprice)
         {
             var isSeccusful = await _manageProductService.UpdatePrice(id,newprice);
             if (isSeccusful)
