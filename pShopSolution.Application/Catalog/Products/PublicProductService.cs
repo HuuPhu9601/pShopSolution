@@ -18,13 +18,12 @@ namespace pShopSolution.Application.Catalog.Products
             _context = Context;
         }
 
-        public async Task<List<ProductViewModel>> GetAll(string languageId)
+        public async Task<List<ProductViewModel>> GetAll()
         {
             var query = from p in _context.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
                         join pic in _context.ProductInCategories on p.Id equals pic.ProductId
                         join c in _context.Categories on pic.CategoryId equals c.Id
-                        where pt.LanguageId == languageId
                         select new { p, pt, pic };
 
             var data =await query
@@ -54,7 +53,6 @@ namespace pShopSolution.Application.Catalog.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
                         join pic in _context.ProductInCategories on p.Id equals pic.ProductId
                         join c in _context.Categories on pic.CategoryId equals c.Id
-                        where pt.LanguageId == request.languageId
                         select new { p, pt, pic };
             //2. fillter
             if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
@@ -85,7 +83,7 @@ namespace pShopSolution.Application.Catalog.Products
             //4. Select and projection
             var pagedResult = new PageResult<ProductViewModel>()
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
                 Items = await data
             };
             return pagedResult;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using pShopSolution.ViewModels.Catalog.ProductImages;
 using pShopSolution.ViewModels.Catalog.Products;
 using pShopSolution.ViewModels.Common;
 using System;
@@ -10,28 +11,39 @@ namespace pShopSolution.Application.Catalog.Products
 {
     public interface IManageProductService
     {
-        Task<int> CreateProduct(CreateProductRequest request);
+        Task<int> Create(CreateProductRequest request);
 
-        Task<int> UpdateProduct(ProductUpdateRequest request);
+        Task<int> Update(ProductUpdateRequest request);
 
-        Task<int> Deleta(int productId);
+        Task<int> Delete(int productId);
 
-        Task<ProductViewModel> GetById(int productId,string languageId);
+        Task<ProductVm> GetById(int productId, string languageId);
 
         Task<bool> UpdatePrice(int productId, decimal newPrice);
 
         Task<bool> UpdateStock(int productId, int addedQuantity);
 
-        Task AddViewCount(int productId);
+        Task AddViewcount(int productId);
 
-        Task<PageResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
+        Task<PageResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request);
 
-        Task<int> AddImages(int productId, List<IFormFile> files);
+        Task<int> AddImage(int productId, ProductImageCreateRequest request);
 
-        Task<int> RemoveImages(int imgeId);
+        Task<int> RemoveImage(int imageId);
 
-        Task<int> UpadateImages(int imageId, string caption, bool isDefault);
+        Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
+
+        Task<ProductImageViewModel> GetImageById(int imageId);
 
         Task<List<ProductImageViewModel>> GetListImages(int productId);
+
+        Task<PageResult<ProductVm>> GetAllByCategoryId(string languageId, GetPublicProductPagingRequest request);
+
+        //Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
+
+        //Task<List<ProductVm>> GetFeaturedProducts(string languageId, int take);
+
+        //Task<List<ProductVm>> GetLatestProducts(string languageId, int take);
+
     }
 }

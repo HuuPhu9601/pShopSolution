@@ -32,16 +32,14 @@ namespace pShopSolution.BackendApi
                 options.UseSqlServer(Configuration.GetConnectionString("pShopSolutionDatabase")));
 
             //Derclace DI
-            services.AddTransient<IStorageService, FileStorageService>();
-
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
+            services.AddTransient<IStorageService, FileStorageService>();
 
             services.AddControllersWithViews();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger pShop Solution", Version = "v1" });
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
             });
         }
 
@@ -69,8 +67,9 @@ namespace pShopSolution.BackendApi
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger pShopSolution V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger eShopSolution V1");
             });
+
 
 
             app.UseEndpoints(endpoints =>

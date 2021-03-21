@@ -278,7 +278,9 @@ namespace pShopSolution.Data.Migrations
                         .UseIdentityColumn();
 
                     b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2021, 2, 6, 14, 13, 32, 491, DateTimeKind.Local).AddTicks(2032));
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()
@@ -783,7 +785,7 @@ namespace pShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 3, 15, 12, 30, 5, 245, DateTimeKind.Local).AddTicks(1847),
+                            DateCreated = new DateTime(2021, 2, 6, 14, 13, 32, 512, DateTimeKind.Local).AddTicks(7885),
                             OriginalPrice = 100000m,
                             Stock = 0,
                             ViewCount = 0,

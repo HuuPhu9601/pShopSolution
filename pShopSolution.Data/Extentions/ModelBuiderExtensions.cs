@@ -52,7 +52,7 @@ namespace pShopSolution.Data.Extentions
            {
                Id = 1,
                DateCreated = DateTime.Now,
-               OriginalPrice = 100000,  
+               OriginalPrice = 100000,
                price = 200000,
                Stock = 0,
                ViewCount = 0,

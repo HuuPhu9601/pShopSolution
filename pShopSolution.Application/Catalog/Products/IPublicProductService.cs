@@ -11,6 +11,6 @@ namespace pShopSolution.Application.Catalog.Products
     {
         Task<PageResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request);
 
-        Task<List<ProductViewModel>> GetAll(string languageId);
+        Task<List<ProductViewModel>> GetAll();
     }
 }
