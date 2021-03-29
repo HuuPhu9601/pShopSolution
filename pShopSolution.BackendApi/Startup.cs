@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eShopSolution.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +14,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using pShopSolution.Application.Catalog.Products;
 using pShopSolution.Application.Comon;
+using pShopSolution.Application.Comon.System.Users;
 using pShopSolution.Data.EF;
+using pShopSolution.Data.Entities;
 
 namespace pShopSolution.BackendApi
 {
@@ -31,10 +35,19 @@ namespace pShopSolution.BackendApi
             services.AddDbContext<pShopDBContext>(options =>    
                 options.UseSqlServer(Configuration.GetConnectionString("pShopSolutionDatabase")));
 
+            //phai co cai nay moi chay duoc no se tu dong register ben duoi
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<pShopDBContext>()
+                .AddDefaultTokenProviders();
             //Derclace DI
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
             services.AddTransient<IStorageService, FileStorageService>();
+            services.AddTransient<IUsersService, UserService>();
+            services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.AddTransient<IUsersService, UserService>();
 
             services.AddControllersWithViews();
 
