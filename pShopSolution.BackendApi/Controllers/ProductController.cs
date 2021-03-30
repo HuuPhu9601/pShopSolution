@@ -7,11 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using pShopSolution.ViewModels.Catalog.ProductImages;
 using pShopSolution.Application.Catalog.Products;
 using pShopSolution.ViewModels.Catalog.Products;
+using Microsoft.AspNetCore.Authorization;
 
 namespace pShopSolution.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //Thêm Authorization header cho Swagger 
+    //de su dung duoc authourize cua api swagger ta dung [authourize]
+    [Authorize]
 
     public class ProductController : ControllerBase
     {
@@ -25,10 +29,10 @@ namespace pShopSolution.BackendApi.Controllers
         }
 
 
-        [HttpGet("paging")]
-        public async Task<IActionResult> GetAllPaging([FromQuery] GetManageProductPagingRequest request)
+        [HttpGet("{languageId}")]
+        public async Task<IActionResult> GetAllPaging(string languageId,[FromQuery] GetPublicProductPagingRequest request)
         {
-            var products = await _manageProductService.GetAllPaging(request);
+            var products = await _manageProductService.GetAllByCategoryId(languageId,request);
             return Ok(products);
         }
 
