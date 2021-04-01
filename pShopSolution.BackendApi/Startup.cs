@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using eShopSolution.Data.Entities;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +17,7 @@ using pShopSolution.Application.Comon;
 using pShopSolution.Application.Comon.System.Users;
 using pShopSolution.Data.EF;
 using pShopSolution.Data.Entities;
+using pShopSolution.ViewModels.System.Users;
 
 namespace pShopSolution.BackendApi
 {
@@ -47,7 +50,12 @@ namespace pShopSolution.BackendApi
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUsersService, UserService>();
 
-            services.AddControllersWithViews();
+            //Sử dụng fluent validation
+            services.AddTransient<IValidator<LoginRequest>,LoginRequestValidation>();
+            services.AddTransient<IValidator<RegisterRequest>, RegisterRequestvalidator>();
+            //Sử dụng Fluent Validation AddFluentValidation()
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidation>());
 
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
