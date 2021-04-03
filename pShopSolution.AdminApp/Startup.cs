@@ -1,9 +1,12 @@
+﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using pShopSolution.AdminApp.Services;
+using pShopSolution.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +26,23 @@ namespace pShopSolution.AdminApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //tich hop HTTP request api client 
+            services.AddHttpClient();
+
+            //Sử dụng Fluent Validation AddFluentValidation()
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidation>());
+
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            //dang ky DI
+            services.AddTransient<IUserApiclient, UseApiclient>();
+
+            IMvcBuilder builder = services.AddRazorPages();
+            if (env == Environments.Development)
+            {
+                builder.AddRazorRuntimeCompilation();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

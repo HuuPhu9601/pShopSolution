@@ -33,6 +33,8 @@ namespace pShopSolution.BackendApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
             services.AddDbContext<pShopDBContext>(options =>    
                 options.UseSqlServer(Configuration.GetConnectionString("pShopSolutionDatabase")));
 
@@ -53,6 +55,8 @@ namespace pShopSolution.BackendApi
             //Sử dụng fluent validation
             services.AddTransient<IValidator<LoginRequest>,LoginRequestValidation>();
             services.AddTransient<IValidator<RegisterRequest>, RegisterRequestvalidator>();
+
+
             //Sử dụng Fluent Validation AddFluentValidation()
             services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidation>());
