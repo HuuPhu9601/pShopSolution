@@ -1,4 +1,5 @@
 ﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,14 @@ namespace pShopSolution.AdminApp
         {
             //tich hop HTTP request api client 
             services.AddHttpClient();
+
+            //phải add authentication mới có thể login bằng Cookie Authentication without ASP.NET Identity
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login/Index";
+                    options.AccessDeniedPath = "/User/Forbidden/";
+                });
 
             //Sử dụng Fluent Validation AddFluentValidation()
             services.AddControllers()
@@ -62,6 +71,9 @@ namespace pShopSolution.AdminApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            //Cookie Authentication without ASP.NET Identity | 
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

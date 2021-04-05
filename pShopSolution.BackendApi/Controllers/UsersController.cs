@@ -33,7 +33,7 @@ namespace pShopSolution.BackendApi.Controllers
             var tokenResult =await _usersService.Authencate(request);
             if (string.IsNullOrEmpty(tokenResult))
                 return BadRequest("Username or password is incorrecet.");
-            return Ok(new { token = tokenResult });
+            return Ok(tokenResult);
         }
 
         [HttpPost("register")]
