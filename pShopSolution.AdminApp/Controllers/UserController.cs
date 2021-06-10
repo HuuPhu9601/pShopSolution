@@ -34,7 +34,7 @@ namespace pShopSolution.AdminApp.Controllers
                 return View(ModelState);
 
             var token = await apiclient.Authenticate(loginRequest);
-            return View(token);
+            return RedirectToAction("Index","Home");
         }
     }
 }

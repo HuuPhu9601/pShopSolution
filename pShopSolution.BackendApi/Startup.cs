@@ -33,9 +33,7 @@ namespace pShopSolution.BackendApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-
-            services.AddDbContext<pShopDBContext>(options =>    
+            services.AddDbContext<pShopDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("pShopSolutionDatabase")));
 
             //phai co cai nay moi chay duoc no se tu dong register ben duoi
@@ -53,7 +51,7 @@ namespace pShopSolution.BackendApi
             services.AddTransient<IUsersService, UserService>();
 
             //Sử dụng fluent validation
-            services.AddTransient<IValidator<LoginRequest>,LoginRequestValidation>();
+            services.AddTransient<IValidator<LoginRequest>, LoginRequestValidation>();
             services.AddTransient<IValidator<RegisterRequest>, RegisterRequestvalidator>();
 
 
@@ -61,14 +59,15 @@ namespace pShopSolution.BackendApi
             services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidation>());
 
-            services.AddSwaggerGen(c => {
+            services.AddSwaggerGen(c =>
+            {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
                 //Thêm Authorization header cho Swagger 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                          Enter 'Bearer' [space] and then your token in the text input below.
+                          \r\n\r\nExample: 'Bearer 12345abcdef'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
@@ -76,22 +75,22 @@ namespace pShopSolution.BackendApi
                 });
                 //Thêm Authorization header cho Swagger 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                  {
-                    {
-                      new OpenApiSecurityScheme
                       {
-                        Reference = new OpenApiReference
+                        {
+                          new OpenApiSecurityScheme
                           {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                          },
-                          Scheme = "oauth2",
-                          Name = "Bearer",
-                          In = ParameterLocation.Header,
-                        },
-                        new List<string>()
-                      }
-                    });
+                            Reference = new OpenApiReference
+                              {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                              },
+                              Scheme = "oauth2",
+                              Name = "Bearer",
+                              In = ParameterLocation.Header,
+                            },
+                            new List<string>()
+                          }
+                        });
             });
             //Thêm Authorization header cho Swagger 
             string issuer = Configuration.GetValue<string>("Tokens:Issuer");
@@ -100,8 +99,8 @@ namespace pShopSolution.BackendApi
 
             services.AddAuthentication(opt =>
             {
-                //de sử dụng được thư viện này thì phải install phiên bản jwt bearer 3.1.2 mới được
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    //de sử dụng được thư viện này thì phải install phiên bản jwt bearer 3.1.2 mới được
+                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
@@ -151,16 +150,14 @@ namespace pShopSolution.BackendApi
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger eShopSolution V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger net105lab6 V1");
             });
-
-
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Class}/{action=Index}/{id?}");
             });
         }
     }

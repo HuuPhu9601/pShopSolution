@@ -33,11 +33,10 @@ namespace pShopSolution.AdminApp
             services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidation>());
 
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
             //dang ky DI
             services.AddTransient<IUserApiclient, UseApiclient>();
 
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             IMvcBuilder builder = services.AddRazorPages();
             if (env == Environments.Development)
             {
@@ -69,7 +68,7 @@ namespace pShopSolution.AdminApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=User}/{action=Login}/{id?}");
             });
         }
     }
